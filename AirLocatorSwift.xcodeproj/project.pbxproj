@@ -10,6 +10,9 @@
 		EEA2AEF31943A75D00D60B69 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AEF21943A75D00D60B69 /* AppDelegate.swift */; };
 		EEA2AEF51943A75D00D60B69 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEA2AEF41943A75D00D60B69 /* Images.xcassets */; };
 		EEA2AF011943A75D00D60B69 /* AirLocatorSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AF001943A75D00D60B69 /* AirLocatorSwiftTests.swift */; };
+		EEA2AF0B1943A7AB00D60B69 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEA2AF0A1943A7AB00D60B69 /* CoreLocation.framework */; };
+		EEA2AF0D1943AB5600D60B69 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AF0C1943AB5600D60B69 /* Defaults.swift */; };
+		EEA2AF0F1943B25300D60B69 /* UUIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AF0E1943B25300D60B69 /* UUIDViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +33,9 @@
 		EEA2AEFA1943A75D00D60B69 /* AirLocatorSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AirLocatorSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEA2AEFF1943A75D00D60B69 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EEA2AF001943A75D00D60B69 /* AirLocatorSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirLocatorSwiftTests.swift; sourceTree = "<group>"; };
+		EEA2AF0A1943A7AB00D60B69 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		EEA2AF0C1943AB5600D60B69 /* Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
+		EEA2AF0E1943B25300D60B69 /* UUIDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UUIDViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEA2AF0B1943A7AB00D60B69 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +60,7 @@
 		EEA2AEE41943A75D00D60B69 = {
 			isa = PBXGroup;
 			children = (
+				EEA2AF0A1943A7AB00D60B69 /* CoreLocation.framework */,
 				EEA2AEEF1943A75D00D60B69 /* AirLocatorSwift */,
 				EEA2AEFD1943A75D00D60B69 /* AirLocatorSwiftTests */,
 				EEA2AEEE1943A75D00D60B69 /* Products */,
@@ -74,6 +82,8 @@
 				EEA2AEF21943A75D00D60B69 /* AppDelegate.swift */,
 				EEA2AEF41943A75D00D60B69 /* Images.xcassets */,
 				EEA2AEF01943A75D00D60B69 /* Supporting Files */,
+				EEA2AF0C1943AB5600D60B69 /* Defaults.swift */,
+				EEA2AF0E1943B25300D60B69 /* UUIDViewController.swift */,
 			);
 			path = AirLocatorSwift;
 			sourceTree = "<group>";
@@ -201,6 +211,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEA2AEF31943A75D00D60B69 /* AppDelegate.swift in Sources */,
+				EEA2AF0D1943AB5600D60B69 /* Defaults.swift in Sources */,
+				EEA2AF0F1943B25300D60B69 /* UUIDViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
