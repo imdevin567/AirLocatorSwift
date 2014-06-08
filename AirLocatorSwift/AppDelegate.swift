@@ -13,11 +13,10 @@ import CoreLocation
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
                             
     var window: UIWindow?
-    var locationManager: CLLocationManager?
-
+    var locationManager = CLLocationManager()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
-        self.locationManager = CLLocationManager()
+        locationManager.delegate = self
         
         return true
     }

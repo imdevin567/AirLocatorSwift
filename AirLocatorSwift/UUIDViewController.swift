@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class UUIDViewController: UITableViewController {
+class UUIDViewController : UITableViewController {
     var uuid: NSUUID?
     let defaults = Defaults()
     

@@ -13,6 +13,8 @@
 		EEA2AF0B1943A7AB00D60B69 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEA2AF0A1943A7AB00D60B69 /* CoreLocation.framework */; };
 		EEA2AF0D1943AB5600D60B69 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AF0C1943AB5600D60B69 /* Defaults.swift */; };
 		EEA2AF0F1943B25300D60B69 /* UUIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AF0E1943B25300D60B69 /* UUIDViewController.swift */; };
+		EEA2AF111943D56800D60B69 /* ProgressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AF101943D56800D60B69 /* ProgressTableViewCell.swift */; };
+		EEA2AF131943D6FE00D60B69 /* MonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AF121943D6FE00D60B69 /* MonitoringViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		EEA2AF0A1943A7AB00D60B69 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		EEA2AF0C1943AB5600D60B69 /* Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		EEA2AF0E1943B25300D60B69 /* UUIDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UUIDViewController.swift; sourceTree = "<group>"; };
+		EEA2AF101943D56800D60B69 /* ProgressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressTableViewCell.swift; sourceTree = "<group>"; };
+		EEA2AF121943D6FE00D60B69 /* MonitoringViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitoringViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +88,8 @@
 				EEA2AEF01943A75D00D60B69 /* Supporting Files */,
 				EEA2AF0C1943AB5600D60B69 /* Defaults.swift */,
 				EEA2AF0E1943B25300D60B69 /* UUIDViewController.swift */,
+				EEA2AF101943D56800D60B69 /* ProgressTableViewCell.swift */,
+				EEA2AF121943D6FE00D60B69 /* MonitoringViewController.swift */,
 			);
 			path = AirLocatorSwift;
 			sourceTree = "<group>";
@@ -211,7 +217,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEA2AEF31943A75D00D60B69 /* AppDelegate.swift in Sources */,
+				EEA2AF131943D6FE00D60B69 /* MonitoringViewController.swift in Sources */,
 				EEA2AF0D1943AB5600D60B69 /* Defaults.swift in Sources */,
+				EEA2AF111943D56800D60B69 /* ProgressTableViewCell.swift in Sources */,
 				EEA2AF0F1943B25300D60B69 /* UUIDViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
