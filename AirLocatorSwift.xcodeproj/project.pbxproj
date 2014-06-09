@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE28DB961943F19900E0E0B6 /* RangingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE28DB951943F19900E0E0B6 /* RangingViewController.swift */; };
 		EEA2AEF31943A75D00D60B69 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AEF21943A75D00D60B69 /* AppDelegate.swift */; };
 		EEA2AEF51943A75D00D60B69 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEA2AEF41943A75D00D60B69 /* Images.xcassets */; };
 		EEA2AF011943A75D00D60B69 /* AirLocatorSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AF001943A75D00D60B69 /* AirLocatorSwiftTests.swift */; };
@@ -15,6 +16,7 @@
 		EEA2AF0F1943B25300D60B69 /* UUIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AF0E1943B25300D60B69 /* UUIDViewController.swift */; };
 		EEA2AF111943D56800D60B69 /* ProgressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AF101943D56800D60B69 /* ProgressTableViewCell.swift */; };
 		EEA2AF131943D6FE00D60B69 /* MonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AF121943D6FE00D60B69 /* MonitoringViewController.swift */; };
+		EEFDF90D19463BC100D976EB /* CalibrationCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFDF90C19463BC100D976EB /* CalibrationCalculator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EE28DB951943F19900E0E0B6 /* RangingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangingViewController.swift; sourceTree = "<group>"; };
 		EEA2AEED1943A75D00D60B69 /* AirLocatorSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirLocatorSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEA2AEF11943A75D00D60B69 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EEA2AEF21943A75D00D60B69 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -40,6 +43,7 @@
 		EEA2AF0E1943B25300D60B69 /* UUIDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UUIDViewController.swift; sourceTree = "<group>"; };
 		EEA2AF101943D56800D60B69 /* ProgressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressTableViewCell.swift; sourceTree = "<group>"; };
 		EEA2AF121943D6FE00D60B69 /* MonitoringViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitoringViewController.swift; sourceTree = "<group>"; };
+		EEFDF90C19463BC100D976EB /* CalibrationCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalibrationCalculator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +94,8 @@
 				EEA2AF0E1943B25300D60B69 /* UUIDViewController.swift */,
 				EEA2AF101943D56800D60B69 /* ProgressTableViewCell.swift */,
 				EEA2AF121943D6FE00D60B69 /* MonitoringViewController.swift */,
+				EE28DB951943F19900E0E0B6 /* RangingViewController.swift */,
+				EEFDF90C19463BC100D976EB /* CalibrationCalculator.swift */,
 			);
 			path = AirLocatorSwift;
 			sourceTree = "<group>";
@@ -221,6 +227,8 @@
 				EEA2AF0D1943AB5600D60B69 /* Defaults.swift in Sources */,
 				EEA2AF111943D56800D60B69 /* ProgressTableViewCell.swift in Sources */,
 				EEA2AF0F1943B25300D60B69 /* UUIDViewController.swift in Sources */,
+				EE28DB961943F19900E0E0B6 /* RangingViewController.swift in Sources */,
+				EEFDF90D19463BC100D976EB /* CalibrationCalculator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +407,7 @@
 				EEA2AF061943A75D00D60B69 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EEA2AF071943A75D00D60B69 /* Build configuration list for PBXNativeTarget "AirLocatorSwiftTests" */ = {
 			isa = XCConfigurationList;
@@ -407,6 +416,7 @@
 				EEA2AF091943A75D00D60B69 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

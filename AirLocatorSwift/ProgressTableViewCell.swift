@@ -9,6 +9,6 @@
 import Foundation
 import UIKit
 
-class ProgressTableViewCell {
+class ProgressTableViewCell : UITableViewCell {
     @IBOutlet var progressView: UIProgressView
 }
