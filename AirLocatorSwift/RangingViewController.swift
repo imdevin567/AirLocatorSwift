@@ -13,8 +13,13 @@ import CoreLocation
 class RangingViewController : UITableViewController, CLLocationManagerDelegate {
     var beacons = Dictionary<String, AnyObject[]>()
     var locationManager = CLLocationManager()
-    var rangedRegions = NSMutableDictionary()
+    var rangedRegions = Array<CLBeaconRegion>()
     var proximityBeacons : AnyObject[]?
+    
+    var immediates = CLBeacon[]()
+    var unknowns = CLBeacon[]()
+    var fars = CLBeacon[]()
+    var nears = CLBeacon[]()
     
     let defaults = Defaults()
     
@@ -24,60 +29,55 @@ class RangingViewController : UITableViewController, CLLocationManagerDelegate {
         locationManager.delegate = self
         
         for (uuid) in defaults.supportedProximityUUIDs {
-            var region = CLBeaconRegion(proximityUUID: uuid, identifier: uuid.UUIDString)
-            rangedRegions[region] = NSArray()
+            let region = CLBeaconRegion(proximityUUID: uuid, identifier: uuid.UUIDString)
+            rangedRegions += region
         }
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        for (region : AnyObject, value : AnyObject) in rangedRegions {
-            locationManager.startRangingBeaconsInRegion(region as CLBeaconRegion)
+        for (region) in rangedRegions {
+            locationManager.startRangingBeaconsInRegion(region)
         }
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
-        for (region : AnyObject, value : AnyObject) in rangedRegions {
-            locationManager.stopRangingBeaconsInRegion(region as CLBeaconRegion)
+        for (region) in rangedRegions {
+            locationManager.stopRangingBeaconsInRegion(region)
         }
     }
     
     // MARK: Location manager delegate
-    
+
     func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: AnyObject[]!, inRegion region: CLBeaconRegion!) {
-        rangedRegions[region] = beacons
+        self.beacons.removeAll(keepCapacity: false)
         
-        var allBeacons = NSMutableArray.array()
-        allBeacons.addObjectsFromArray(rangedRegions.allValues)
-        
-        let clProximities = [CLProximity.Unknown, CLProximity.Immediate, CLProximity.Near, CLProximity.Far]
-        
-        for (range) in clProximities {
-            var proximityPredicate = NSPredicate(format: "proximity = \(range.toRaw())", argumentArray: nil)
-            self.proximityBeacons = allBeacons.filteredArrayUsingPredicate(proximityPredicate)
-            
-            if self.proximityBeacons?.count > 0 {
-                switch range {
-                    case .Unknown:
-                        self.beacons["Unknown"] = self.proximityBeacons
-                    case .Immediate:
-                        self.beacons["Immediate"] = self.proximityBeacons
-                    case .Near:
-                        self.beacons["Near"] = self.proximityBeacons
-                    case .Far:
-                        self.beacons["Far"] = self.proximityBeacons
-                    default:
-                        println() // Do nothing here
-                }
+        for (indBeacon : AnyObject) in beacons {
+            switch indBeacon.proximity.toRaw() {
+            case CLProximity.Immediate.toRaw():
+                immediates += indBeacon as CLBeacon
+            case CLProximity.Unknown.toRaw():
+                unknowns += indBeacon as CLBeacon
+            case CLProximity.Far.toRaw():
+                fars += indBeacon as CLBeacon
+            case CLProximity.Near.toRaw():
+                nears += indBeacon as CLBeacon
+            default:
+                println() // do nothing
             }
         }
         
+        self.beacons["Immediate"] = immediates
+        self.beacons["Unknown"] = unknowns
+        self.beacons["Far"] = fars
+        self.beacons["Near"] = nears
+        
         tableView.reloadData()
     }
-    
+
     // MARK: Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView!) -> Int {

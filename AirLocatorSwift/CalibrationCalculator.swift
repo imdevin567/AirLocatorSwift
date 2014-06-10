@@ -13,7 +13,7 @@ class CalibrationCalculator : NSObject, CLLocationManagerDelegate {
     let CalibrationDwell = 20.0
     let AppErrorDomain = "com.ios.imdevin567.AirLocatorSwift"
     
-    typealias CalibrationProgressHandler = (percentComplete: Double) -> Void
+    typealias CalibrationProgressHandler = (percentComplete: Float) -> Void
     typealias CalibrationCompletionHandler = (measuredPower: Int, error: NSError) -> Void
     
     var progressHandler : CalibrationProgressHandler?
@@ -24,14 +24,13 @@ class CalibrationCalculator : NSObject, CLLocationManagerDelegate {
     var calibrating : Bool?
     var rangedBeacons = Array<AnyObject[]>()
     var timer : NSTimer?
-    var percentComplete : Double = 0
+    var percentComplete : Float = 0
     
-    func initWithRegion(region: CLBeaconRegion, completionHandler handler: CalibrationCompletionHandler) -> AnyObject {
+    init(region: CLBeaconRegion, completionHandler handler: CalibrationCompletionHandler) {
+        super.init()
         self.locationManager.delegate = self
         self.region = region
         self.completionHandler = handler
-        
-        return self
     }
     
     func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: AnyObject[]!, inRegion region: CLBeaconRegion!) {
@@ -42,7 +41,7 @@ class CalibrationCalculator : NSObject, CLLocationManagerDelegate {
         
         if progressHandler != nil {
             dispatch_async(dispatch_get_main_queue()) {
-                var addPercent = 1.0 / self.CalibrationDwell
+                var addPercent = Float(1.0 / self.CalibrationDwell)
                 self.percentComplete += addPercent
                 self.progressHandler?(percentComplete: self.percentComplete)
             }
