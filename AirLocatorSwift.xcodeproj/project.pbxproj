@@ -17,6 +17,9 @@
 		EEA2AF111943D56800D60B69 /* ProgressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AF101943D56800D60B69 /* ProgressTableViewCell.swift */; };
 		EEA2AF131943D6FE00D60B69 /* MonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA2AF121943D6FE00D60B69 /* MonitoringViewController.swift */; };
 		EEFDF90D19463BC100D976EB /* CalibrationCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFDF90C19463BC100D976EB /* CalibrationCalculator.swift */; };
+		EEFDF911194663E500D976EB /* CalibrationEndViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFDF910194663E500D976EB /* CalibrationEndViewController.swift */; };
+		EEFDF913194665EF00D976EB /* ConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFDF912194665EF00D976EB /* ConfigurationViewController.swift */; };
+		EEFDF9151946664B00D976EB /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEFDF9141946664B00D976EB /* CoreBluetooth.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +47,9 @@
 		EEA2AF101943D56800D60B69 /* ProgressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressTableViewCell.swift; sourceTree = "<group>"; };
 		EEA2AF121943D6FE00D60B69 /* MonitoringViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitoringViewController.swift; sourceTree = "<group>"; };
 		EEFDF90C19463BC100D976EB /* CalibrationCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalibrationCalculator.swift; sourceTree = "<group>"; };
+		EEFDF910194663E500D976EB /* CalibrationEndViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalibrationEndViewController.swift; sourceTree = "<group>"; };
+		EEFDF912194665EF00D976EB /* ConfigurationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationViewController.swift; sourceTree = "<group>"; };
+		EEFDF9141946664B00D976EB /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEFDF9151946664B00D976EB /* CoreBluetooth.framework in Frameworks */,
 				EEA2AF0B1943A7AB00D60B69 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -68,6 +75,7 @@
 		EEA2AEE41943A75D00D60B69 = {
 			isa = PBXGroup;
 			children = (
+				EEFDF9141946664B00D976EB /* CoreBluetooth.framework */,
 				EEA2AF0A1943A7AB00D60B69 /* CoreLocation.framework */,
 				EEA2AEEF1943A75D00D60B69 /* AirLocatorSwift */,
 				EEA2AEFD1943A75D00D60B69 /* AirLocatorSwiftTests */,
@@ -96,6 +104,8 @@
 				EEA2AF121943D6FE00D60B69 /* MonitoringViewController.swift */,
 				EE28DB951943F19900E0E0B6 /* RangingViewController.swift */,
 				EEFDF90C19463BC100D976EB /* CalibrationCalculator.swift */,
+				EEFDF910194663E500D976EB /* CalibrationEndViewController.swift */,
+				EEFDF912194665EF00D976EB /* ConfigurationViewController.swift */,
 			);
 			path = AirLocatorSwift;
 			sourceTree = "<group>";
@@ -227,8 +237,10 @@
 				EEA2AF0D1943AB5600D60B69 /* Defaults.swift in Sources */,
 				EEA2AF111943D56800D60B69 /* ProgressTableViewCell.swift in Sources */,
 				EEA2AF0F1943B25300D60B69 /* UUIDViewController.swift in Sources */,
+				EEFDF913194665EF00D976EB /* ConfigurationViewController.swift in Sources */,
 				EE28DB961943F19900E0E0B6 /* RangingViewController.swift in Sources */,
 				EEFDF90D19463BC100D976EB /* CalibrationCalculator.swift in Sources */,
+				EEFDF911194663E500D976EB /* CalibrationEndViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
