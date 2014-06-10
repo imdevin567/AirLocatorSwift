@@ -31,6 +31,11 @@ class ConfigurationViewController : UITableViewController, CBPeripheralManagerDe
     
     let defaults = Defaults()
     
+    init(coder aDecoder: NSCoder!) {
+        super.init(coder: aDecoder)
+        peripheralManager = CBPeripheralManager(delegate: self, queue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
+    }
+    
     init(style: UITableViewStyle) {
         super.init(style: UITableViewStyle.Plain)
         peripheralManager = CBPeripheralManager(delegate: self, queue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))

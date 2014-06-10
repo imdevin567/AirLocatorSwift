@@ -21,6 +21,7 @@
 		EEFDF913194665EF00D976EB /* ConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFDF912194665EF00D976EB /* ConfigurationViewController.swift */; };
 		EEFDF9151946664B00D976EB /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEFDF9141946664B00D976EB /* CoreBluetooth.framework */; };
 		EEFDF9171947453200D976EB /* CalibrationBeginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFDF9161947453200D976EB /* CalibrationBeginViewController.swift */; };
+		EEFDF91D1947819A00D976EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EEFDF91C1947819A00D976EB /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		EEFDF912194665EF00D976EB /* ConfigurationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationViewController.swift; sourceTree = "<group>"; };
 		EEFDF9141946664B00D976EB /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		EEFDF9161947453200D976EB /* CalibrationBeginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalibrationBeginViewController.swift; sourceTree = "<group>"; };
+		EEFDF91C1947819A00D976EB /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				EEA2AEF11943A75D00D60B69 /* Info.plist */,
+				EEFDF91C1947819A00D976EB /* Main.storyboard */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEA2AEF51943A75D00D60B69 /* Images.xcassets in Resources */,
+				EEFDF91D1947819A00D976EB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
