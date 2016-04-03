@@ -16,20 +16,20 @@ class UUIDViewController : UITableViewController {
     
     // MARK: Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return defaults.supportedProximityUUIDs.count
     }
-
-    override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let CellIdentifier = "Cell"
-        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath:indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath:indexPath) as UITableViewCell
         
         if indexPath.row < defaults.supportedProximityUUIDs.count {
-            cell.textLabel.text = defaults.supportedProximityUUIDs[indexPath.row].UUIDString
+            cell.textLabel?.text = defaults.supportedProximityUUIDs[indexPath.row].UUIDString
             
             if self.uuid == defaults.supportedProximityUUIDs[indexPath.row] {
                 cell.accessoryType = UITableViewCellAccessoryType.Checkmark
@@ -41,14 +41,15 @@ class UUIDViewController : UITableViewController {
     
     // MARK: Navigation
     
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-        let selectionIndexPath = tableView.indexPathForSelectedRow()
-        var selection = 0
-        
-        if selectionIndexPath.row < defaults.supportedProximityUUIDs.count {
-            selection = selectionIndexPath.row
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if let selectionIndexPath = tableView.indexPathForSelectedRow {
+            var selection = 0
+            
+            if selectionIndexPath.row < defaults.supportedProximityUUIDs.count {
+                selection = selectionIndexPath.row
+            }
+            
+            uuid = defaults.supportedProximityUUIDs[selection]
         }
-        
-        uuid = defaults.supportedProximityUUIDs[selection]
     }
 }

@@ -11,15 +11,15 @@ import UIKit
 import CoreLocation
 
 class RangingViewController : UITableViewController, CLLocationManagerDelegate {
-    var beacons = Dictionary<String, AnyObject[]>()
+    var beacons = [String:[CLBeacon]]()
     var locationManager = CLLocationManager()
-    var rangedRegions = Array<CLBeaconRegion>()
-    var proximityBeacons : AnyObject[]?
+    var rangedRegions = [CLBeaconRegion]()
+    var proximityBeacons : [AnyObject]?
     
-    var immediates = CLBeacon[]()
-    var unknowns = CLBeacon[]()
-    var fars = CLBeacon[]()
-    var nears = CLBeacon[]()
+    var immediates = [CLBeacon]()
+    var unknowns = [CLBeacon]()
+    var fars = [CLBeacon]()
+    var nears = [CLBeacon]()
     
     let defaults = Defaults()
     
@@ -28,9 +28,9 @@ class RangingViewController : UITableViewController, CLLocationManagerDelegate {
         
         locationManager.delegate = self
         
-        for (uuid) in defaults.supportedProximityUUIDs {
+        for uuid in defaults.supportedProximityUUIDs {
             let region = CLBeaconRegion(proximityUUID: uuid, identifier: uuid.UUIDString)
-            rangedRegions += region
+            rangedRegions.append(region)
         }
     }
     
@@ -52,21 +52,21 @@ class RangingViewController : UITableViewController, CLLocationManagerDelegate {
     
     // MARK: Location manager delegate
 
-    func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: AnyObject[]!, inRegion region: CLBeaconRegion!) {
+    func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion) {
         self.beacons.removeAll(keepCapacity: false)
         
-        for (indBeacon : AnyObject) in beacons {
-            switch indBeacon.proximity.toRaw() {
-            case CLProximity.Immediate.toRaw():
-                immediates += indBeacon as CLBeacon
-            case CLProximity.Unknown.toRaw():
-                unknowns += indBeacon as CLBeacon
-            case CLProximity.Far.toRaw():
-                fars += indBeacon as CLBeacon
-            case CLProximity.Near.toRaw():
-                nears += indBeacon as CLBeacon
+        for indBeacon in beacons {
+            switch indBeacon.proximity.rawValue {
+            case CLProximity.Immediate.rawValue:
+                immediates.append(indBeacon)
+            case CLProximity.Unknown.rawValue:
+                unknowns.append(indBeacon)
+            case CLProximity.Far.rawValue:
+                fars.append(indBeacon)
+            case CLProximity.Near.rawValue:
+                nears.append(indBeacon)
             default:
-                println() // do nothing
+                print("") // do nothing
             }
         }
         
@@ -80,35 +80,31 @@ class RangingViewController : UITableViewController, CLLocationManagerDelegate {
 
     // MARK: Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return self.beacons.count
     }
     
-    override func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        var sectionValues = Array(self.beacons.values)
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let sectionValues = Array(self.beacons.values)
         return sectionValues[section].count
     }
     
-    override func tableView(tableView: UITableView!, titleForHeaderInSection section: Int) -> String! {
-        var sectionKeys = Array(self.beacons.keys)
-        var sectionKey : String = sectionKeys[section]
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let sectionKeys = Array(self.beacons.keys)
+        let sectionKey : String = sectionKeys[section]
         
         return sectionKey
     }
     
-    override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let identifier = "Cell"
-        var cell : AnyObject! = tableView.dequeueReusableCellWithIdentifier(identifier)
-        var sectionKey = Array(self.beacons.keys)[indexPath.section]
-        var beacon : AnyObject? = self.beacons[sectionKey]?[indexPath.section]
-        
-        if var cellLabel = cell.textLabel {
-            cellLabel.text = beacon!.proximityUUID.value!.UUIDString
+        let cell : UITableViewCell = tableView.dequeueReusableCellWithIdentifier(identifier)!
+        let sectionKey = Array(self.beacons.keys)[indexPath.section]
+        if let beacon = self.beacons[sectionKey]?[indexPath.section] {
+            cell.textLabel?.text = beacon.proximityUUID.UUIDString
+            cell.detailTextLabel?.text = "Major: \(beacon.major), Minor: \(beacon.minor), Acc: \(beacon.accuracy)"
         }
         
-        if var cellDetailTextLabel = cell.detailTextLabel {
-            cellDetailTextLabel.text = "Major: \(beacon?.major), Minor: \(beacon?.minor), Acc: \(beacon?.accuracy)"
-        }
         
         return cell as UITableViewCell
     }

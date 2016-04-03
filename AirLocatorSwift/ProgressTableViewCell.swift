@@ -10,5 +10,5 @@ import Foundation
 import UIKit
 
 class ProgressTableViewCell : UITableViewCell {
-    @IBOutlet var progressView: UIProgressView
+    @IBOutlet var progressView: UIProgressView!
 }
