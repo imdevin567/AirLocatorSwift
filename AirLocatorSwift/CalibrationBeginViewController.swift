@@ -12,27 +12,26 @@ import CoreLocation
 
 class CalibrationBeginViewController : UITableViewController, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
-    var rangedRegions = Array<CLBeaconRegion>()
-    var beacons = Dictionary<String, AnyObject[]>()
+    var rangedRegions = [CLBeaconRegion]()
+    var beacons = [String :[CLBeacon]]()
     var defaults = Defaults()
     
-    var immediates = CLBeacon[]()
-    var unknowns = CLBeacon[]()
-    var fars = CLBeacon[]()
-    var nears = CLBeacon[]()
+    var immediates = [CLBeacon]()
+    var unknowns = [CLBeacon]()
+    var fars = [CLBeacon]()
+    var nears = [CLBeacon]()
     
     var calculator : CalibrationCalculator?
-    var inProgress : Bool?
+    var inProgress : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         locationManager.delegate = self
-        inProgress = false
         
-        for (uuid) in defaults.supportedProximityUUIDs {
+        for uuid in defaults.supportedProximityUUIDs {
             let region = CLBeaconRegion(proximityUUID: uuid, identifier: uuid.UUIDString)
-            rangedRegions += region
+            rangedRegions.append(region)
         }
     }
     
@@ -61,21 +60,21 @@ class CalibrationBeginViewController : UITableViewController, CLLocationManagerD
         }
     }
     
-    func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: AnyObject[]!, inRegion region: CLBeaconRegion!) {
+    func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion) {
         self.beacons.removeAll(keepCapacity: false)
 
-        for (indBeacon : AnyObject) in beacons {
-            switch indBeacon.proximity.toRaw() {
-                case CLProximity.Immediate.toRaw():
-                    immediates += indBeacon as CLBeacon
-                case CLProximity.Unknown.toRaw():
-                    unknowns += indBeacon as CLBeacon
-                case CLProximity.Far.toRaw():
-                    fars += indBeacon as CLBeacon
-                case CLProximity.Near.toRaw():
-                    nears += indBeacon as CLBeacon
+        for indBeacon in beacons {
+            switch indBeacon.proximity.rawValue {
+                case CLProximity.Immediate.rawValue:
+                    immediates.append(indBeacon)
+                case CLProximity.Unknown.rawValue:
+                    unknowns.append(indBeacon)
+                case CLProximity.Far.rawValue:
+                    fars.append(indBeacon)
+                case CLProximity.Near.rawValue:
+                    nears.append(indBeacon)
                 default:
-                    println() // do nothing
+                    print("") // do nothing
             }
         }
         
@@ -93,25 +92,25 @@ class CalibrationBeginViewController : UITableViewController, CLLocationManagerD
         }
         
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-        var progressCell = self.tableView.cellForRowAtIndexPath(indexPath) as ProgressTableViewCell
+        let progressCell = self.tableView.cellForRowAtIndexPath(indexPath) as! ProgressTableViewCell
         progressCell.progressView.setProgress(percentComplete, animated: true)
     }
     
     // MARK: Table view data source/delegate
     
-    override func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         let i = inProgress ? beacons.count + 1 : beacons.count
         return i
     }
     
-    override func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var adjustedSection = section
         
         if inProgress {
             if adjustedSection == 0 {
                 return 1
             } else {
-                adjustedSection--
+                adjustedSection -= 1
             }
         }
         
@@ -119,14 +118,14 @@ class CalibrationBeginViewController : UITableViewController, CLLocationManagerD
         return sectionValues[adjustedSection].count
     }
     
-    override func tableView(tableView: UITableView!, titleForHeaderInSection section: Int) -> String! {
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         var adjustedSection = section
         
-        if inProgress {
+        if inProgress  {
             if adjustedSection == 0 {
                 return nil
             } else {
-                adjustedSection--
+                adjustedSection -= 1
             }
         }
         
@@ -136,63 +135,42 @@ class CalibrationBeginViewController : UITableViewController, CLLocationManagerD
         return sectionKey
     }
     
-    override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let beaconCellIdentifier = "BeaconCell"
         let progressCellIdentifier = "ProgressCell"
         var section = indexPath.section
-        let identifier = inProgress && section == 0 ? progressCellIdentifier : beaconCellIdentifier
-        let cell : AnyObject! = tableView.dequeueReusableCellWithIdentifier(identifier)
+        let identifier = (inProgress && section == 0) ? progressCellIdentifier : beaconCellIdentifier
+        let cell : UITableViewCell! = tableView.dequeueReusableCellWithIdentifier(identifier)
         
         if identifier == progressCellIdentifier {
             return cell as UITableViewCell
         } else if inProgress {
-            section--
+            section -= 1
         }
         
         let sectionKey = Array(beacons.keys)[section]
-        let beacon : AnyObject? = beacons[sectionKey]?[indexPath.row]
-        
-        if var cellLabel = cell.textLabel {
-            cellLabel.text = beacon?.proximityUUID?.UUIDString
+        if let beacon = beacons[sectionKey]?[indexPath.row] {
+            cell.textLabel?.text = beacon.proximityUUID.UUIDString
+            cell.detailTextLabel?.text = "Major: \(beacon.major), Minor: \(beacon.minor), Acc: \(beacon.accuracy)"
         }
         
-        if var cellDetailLabel = cell.detailTextLabel {
-            cellDetailLabel.text = "Major: \(beacon?.major), Minor: \(beacon?.minor), Acc: \(beacon?.accuracy)"
-        }
-        
-        return cell as UITableViewCell
+        return cell
     }
     
-    override func tableView(tableView: UITableView!, didDeselectRowAtIndexPath indexPath: NSIndexPath!) {
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         let sectionKey = Array(beacons.keys)[indexPath.section]
-        var beacon : AnyObject? = self.beacons[sectionKey]?[indexPath.section]
+        if let beacon = self.beacons[sectionKey]?[indexPath.section] {
+            if !inProgress {
+                
+                let major = CLBeaconMajorValue(beacon.major.shortValue)
+                let minor = CLBeaconMajorValue(beacon.minor.shortValue)
+                let region = CLBeaconRegion(proximityUUID: beacon.proximityUUID, major: major, minor: minor, identifier: defaults.BeaconIdentifier)
 
-        if !inProgress {
-            var region : CLBeaconRegion?
-            
-            var majorShortValue: UInt16 = 0
-            var minorShortValue: UInt16 = 0
-            
-            let majorInt = beacon?.major?.integerValue
-            let minorInt = beacon?.minor?.integerValue
-            
-            majorShortValue = UInt16(majorInt!)
-            minorShortValue = UInt16(minorInt!)
-            
-            if beacon?.proximityUUID != nil && beacon?.major != nil && beacon?.minor != nil {
-                region = CLBeaconRegion(proximityUUID: beacon?.proximityUUID, major: majorShortValue, minor: minorShortValue, identifier: defaults.BeaconIdentifier)
-            } else if beacon?.proximityUUID != nil && beacon?.major != nil {
-                region = CLBeaconRegion(proximityUUID: beacon?.proximityUUID, major: majorShortValue, identifier: defaults.BeaconIdentifier)
-            } else if beacon?.proximityUUID {
-                region = CLBeaconRegion(proximityUUID: beacon?.proximityUUID, identifier: defaults.BeaconIdentifier)
-            }
-            
-            if region != nil {
                 self.stopRangingAllRegions()
                 
-                calculator = CalibrationCalculator(region: region!) { measuredPower, error in
-                    if error != nil {
-                        if self.view.window {
+                calculator = CalibrationCalculator(region: region) { measuredPower, error in
+                    if let error = error {
+                        if (self.view.window != nil) {
                             let title = "Unable to calibrate device"
                             let cancelTitle = "OK"
                             let alert = UIAlertView(title: title, message: error.userInfo.description, delegate: nil, cancelButtonTitle: cancelTitle)
@@ -201,9 +179,10 @@ class CalibrationBeginViewController : UITableViewController, CLLocationManagerD
                             self.startRangingAllRegions()
                         }
                     } else {
-                        var endViewController = self.storyboard.instantiateViewControllerWithIdentifier("EndViewController") as CalibrationEndViewController
-                        endViewController.measuredPower = measuredPower
-                        self.navigationController.pushViewController(endViewController, animated: true)
+                        if let endViewController = self.storyboard?.instantiateViewControllerWithIdentifier("EndViewController") as? CalibrationEndViewController {
+                            endViewController.measuredPower = measuredPower
+                            self.navigationController?.pushViewController(endViewController, animated: true)
+                        }
                     }
                     
                     self.inProgress = false
@@ -228,9 +207,10 @@ class CalibrationBeginViewController : UITableViewController, CLLocationManagerD
                 self.updateProgressViewWithProgress(0.0)
             }
         }
+
     }
     
-    override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if inProgress && indexPath.section == 0 {
             return 66.0
         }

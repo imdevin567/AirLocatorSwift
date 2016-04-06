@@ -14,16 +14,16 @@ class CalibrationCalculator : NSObject, CLLocationManagerDelegate {
     let AppErrorDomain = "com.ios.imdevin567.AirLocatorSwift"
     
     typealias CalibrationProgressHandler = (percentComplete: Float) -> Void
-    typealias CalibrationCompletionHandler = (measuredPower: Int, error: NSError) -> Void
+    typealias CalibrationCompletionHandler = (measuredPower: Int, error: NSError?) -> Void
     
     var progressHandler : CalibrationProgressHandler?
     var completionHandler : CalibrationCompletionHandler?
     
     var locationManager = CLLocationManager()
     var region : CLBeaconRegion?
-    var calibrating : Bool?
-    var rangedBeacons = Array<AnyObject[]>()
-    var timer : NSTimer?
+    var calibrating = false
+    var rangedBeacons = [[CLBeacon]]()
+    var timer : NSTimer!
     var percentComplete : Float = 0
     
     init(region: CLBeaconRegion, completionHandler handler: CalibrationCompletionHandler) {
@@ -33,15 +33,15 @@ class CalibrationCalculator : NSObject, CLLocationManagerDelegate {
         self.completionHandler = handler
     }
     
-    func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: AnyObject[]!, inRegion region: CLBeaconRegion!) {
+    func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion) {
         // Begin lock
         objc_sync_enter(self)
         
-        rangedBeacons += beacons
+        rangedBeacons.append(beacons)
         
         if progressHandler != nil {
             dispatch_async(dispatch_get_main_queue()) {
-                var addPercent = Float(1.0 / self.CalibrationDwell)
+                let addPercent = Float(1.0 / self.CalibrationDwell)
                 self.percentComplete += addPercent
                 self.progressHandler?(percentComplete: self.percentComplete)
             }
@@ -61,11 +61,13 @@ class CalibrationCalculator : NSObject, CLLocationManagerDelegate {
             percentComplete = 0
             progressHandler = handler
             
-            locationManager.startRangingBeaconsInRegion(region)
+            if let region = self.region {
+                locationManager.startRangingBeaconsInRegion(region)
+            }
             
-            timer = NSTimer(fireDate: NSDate(timeIntervalSinceNow: CalibrationDwell), interval: 0, target: self, selector: Selector("timerElapsed"), userInfo: nil, repeats: false)
-            
+            self.timer = NSTimer(fireDate: NSDate(timeIntervalSinceNow: CalibrationDwell), interval: 0, target: self, selector: #selector(CalibrationCalculator.timerElapsed(_:)), userInfo: nil, repeats: false)
             NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
+            
         } else {
             let errorString = "Calibration is already in progress"
             let userInfo = ["Error string": errorString]
@@ -84,7 +86,7 @@ class CalibrationCalculator : NSObject, CLLocationManagerDelegate {
         // Begin lock
         objc_sync_enter(self)
         
-        if calibrating {
+        if calibrating  {
             calibrating = false
             timer?.fire()
         }
@@ -93,11 +95,13 @@ class CalibrationCalculator : NSObject, CLLocationManagerDelegate {
         objc_sync_exit(self)
     }
     
-    func timerElapsed(sender: AnyObject?) {
+    func timerElapsed(sender: NSTimer) {
         // Begin lock
         objc_sync_enter(self)
         
-        locationManager.stopRangingBeaconsInRegion(region)
+        if let region = self.region {
+            locationManager.stopRangingBeaconsInRegion(region)
+        }
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             // Begin more locks
@@ -110,9 +114,9 @@ class CalibrationCalculator : NSObject, CLLocationManagerDelegate {
             if !self.calibrating {
                 let errorString = "Calibration was cancelled"
                 let userInfo = ["Error string": errorString]
-                error = NSError.errorWithDomain(self.AppErrorDomain, code: 2, userInfo: userInfo)
+                error = NSError(domain: self.AppErrorDomain, code: 2, userInfo: userInfo)
             } else {
-                func enumBlock(index: Int, object: AnyObject[], inout stop: Bool) -> Void {
+                func enumBlock(index: Int, object: [CLBeacon], inout stop: Bool) -> Void {
                     if object.count > 1 {
                         let errorString = "More than one beacon of the specified type was found"
                         let userInfo = ["Error string": errorString]
@@ -122,9 +126,9 @@ class CalibrationCalculator : NSObject, CLLocationManagerDelegate {
                     }
                 }
                 
-                for (index, object) in enumerate(self.rangedBeacons) {
+                for (index, object) in self.rangedBeacons.enumerate() {
                     var stop = false
-                    enumBlock(index, object, &stop)
+                    enumBlock(index, object: object, stop: &stop)
                     
                     if stop {
                         break
@@ -140,9 +144,9 @@ class CalibrationCalculator : NSObject, CLLocationManagerDelegate {
                     let sortDescriptor = [NSSortDescriptor(key: "rssi", ascending: true)]
                     allBeacons.sortUsingDescriptors(sortDescriptor)
                     let len = Double(allBeacons.count) - (outlierPadding * 2)
-                    let range = NSMakeRange(outlierPadding.bridgeToObjectiveC().integerValue, len.bridgeToObjectiveC().integerValue)
+                    let range = NSMakeRange(Int(outlierPadding), Int(len))
                     let sample = allBeacons.subarrayWithRange(range)
-                    measuredPower = sample.bridgeToObjectiveC().valueForKeyPath("@avg.rssi").integerValue
+                    measuredPower = (sample as NSArray).valueForKeyPath("@avg.rssi")!.integerValue
                 }
             }
             

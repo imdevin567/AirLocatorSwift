@@ -10,18 +10,18 @@ import Foundation
 import UIKit
 
 class CalibrationEndViewController : UIViewController {
-    @IBOutlet var measuredPowerLabel : UILabel
+    @IBOutlet var measuredPowerLabel : UILabel!
     
     var measuredPower : Int?
     
     func doneButtonTapped(sender: AnyObject?) {
-        self.navigationController.popToRootViewControllerAnimated(true)
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: Selector("doneButtonTapped"))
+        let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: #selector(CalibrationEndViewController.doneButtonTapped(_:)))
         self.navigationItem.rightBarButtonItem = doneButton
         measuredPowerLabel.text = "\(self.measuredPower)"
     }
